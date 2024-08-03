@@ -27,6 +27,29 @@
                     @if(isset($timeSlots[$day]))
                         @foreach($timeSlots[$day] as $timeSlot)
                             @if($timeSlot->start_time == sprintf('%02d:00:00', $i))
+
+                                <select name="professor_{{ $day }}_{{ $i }}" id="professor_{{ $day }}_{{ $i }}">
+                                    <option value="">Selecione um Professor</option>
+                                    @forelse($professors as $professor)
+
+                                        @php
+                                            $isAvailable = false;
+                                            foreach($professor->disponibilidades as $disponibilidade) {
+                                                if ($disponibilidade->horario_id == $timeSlot->id &&
+                                                    $disponibilidade->disponivel == 1 &&
+                                                    $disponibilidade->ocupado == 0) {
+                                                        $isAvailable = true;
+                                                        break;
+                                                    }
+                                            }
+                                        @endphp
+                                        @if($isAvailable)
+                                            <option value="{{$professor->id}}">{{$professor->name}}</option>
+                                        @endif
+                                    @empty
+                                        <option value="">Nenhum professor disponível</option>
+                                    @endforelse
+                                </select>
 {{--                                @foreach($schoolClasses as $class)--}}
 {{--                                    @if($class->time_slot_id == $timeSlot->id)--}}
 {{--                                        {{ $class->subject }} ({{ $class->user->name }})--}}
@@ -72,8 +95,8 @@
 
                                 @if($timeSlot->start_time == sprintf('%02d:00:00', $i))
                                     <select name="disponibilidade[{{$timeSlot->id}}]" id="">
-                                        <option value="SIM">SIM</option>
-                                        <option value="Nao">NAO</option>
+                                        <option value="1">SIM</option>
+                                        <option value="0">NAO</option>
                                     </select>
                                     {{--                                @foreach($schoolClasses as $class)--}}
                                     {{--                                    @if($class->time_slot_id == $timeSlot->id)--}}

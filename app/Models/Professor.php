@@ -12,4 +12,9 @@ class Professor extends Model
 
 
     protected $fillable = ['name','materia_id'];
+
+
+    public function disponibilidades(){
+        return $this->hasMany(Disponibilidade::class);
+    }
 }

@@ -21,8 +21,8 @@ Route::get('datas', function () {
 
     // Obter todas as turmas com os relacionamentos
     //$schoolClasses = SchoolClass::with(['timeSlot', 'user'])->get();
-
-    return view('teste', compact('daysOfWeek', 'timeSlots'));
+    $professors = Professor::all();
+    return view('teste', compact('daysOfWeek', 'timeSlots','professors'));
 
 });
 
@@ -61,5 +61,22 @@ Route::get('/teste', function () {
 });
 
 Route::post('gerar_horario',function (\Illuminate\Http\Request $request){
-    dd($request->all());
+    //dd($request->all());
+
+
+    $professor['id'] =1;
+
+    foreach ($request['disponibilidade'] as $key => $value) {
+
+        $grava = [
+
+
+            'professor_id'=>$professor['id'],
+            'horario_id'=>$key,
+            'disponivel'=>$value,
+        ];
+
+        ///dd($grava);
+       \App\Models\Disponibilidade::create($grava);
+    };
 });
