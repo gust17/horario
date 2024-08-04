@@ -16,4 +16,16 @@ class Horario extends Model
         'start_time',
         'end_time',
     ];
+
+    public function turmas()
+    {
+        return $this->belongsToMany(Turma::class, 'horario_turma_professor')
+            ->withPivot('professor_id');
+    }
+
+    public function professors()
+    {
+        return $this->belongsToMany(Professor::class, 'horario_turma_professor')
+            ->withPivot('turma_id');
+    }
 }

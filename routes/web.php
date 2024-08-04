@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TurnoController;
 use App\Models\Horario;
 use App\Models\Professor;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,14 @@ Route::get('datas', function () {
     return view('teste', compact('daysOfWeek', 'timeSlots','professors'));
 
 });
+
+Route::resource('turmas', \App\Http\Controllers\TurmaController::class);
+Route::post('turmas/horario/{turma}',[\App\Http\Controllers\TurmaController::class, 'horario'])->name('turmas.horario');
+
+
+Route::resource('turnos',TurnoController::class);
+///Route::resource('turnos');
+
 
 
 Route::get('/teste', function () {

@@ -1,69 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Schedule</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body>
+@extends('padrao')
+@section('content')
 <div class="container mt-5">
-    <h1>Class Schedule</h1>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Time</th>
-            @foreach($daysOfWeek as $day)
-                <th>{{ $day }}</th>
-            @endforeach
-        </tr>
-        </thead>
-        <tbody>
-        @for($i = 7; $i <= 12; $i++) <!-- Assuming 6 periods from 7:00 to 12:00 -->
-        <tr>
-            <td>{{ sprintf('%02d:00', $i) }} - {{ sprintf('%02d:00', $i + 1) }}</td>
-            @foreach($daysOfWeek as $day)
-                <td>
-                    @if(isset($timeSlots[$day]))
-                        @foreach($timeSlots[$day] as $timeSlot)
-                            @if($timeSlot->start_time == sprintf('%02d:00:00', $i))
+    <h1>HORARIO DA TURMA X</h1>
 
-                                <select name="professor_{{ $day }}_{{ $i }}" id="professor_{{ $day }}_{{ $i }}">
-                                    <option value="">Selecione um Professor</option>
-                                    @forelse($professors as $professor)
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Time</th>
+                    @foreach($daysOfWeek as $day)
+                        <th>{{ $day }}</th>
+                    @endforeach
+                </tr>
+                </thead>
+                <tbody>
+                @for($i = 7; $i <= 12; $i++) <!-- Assuming 6 periods from 7:00 to 12:00 -->
+                <tr>
+                    <td>{{ sprintf('%02d:00', $i) }} - {{ sprintf('%02d:00', $i + 1) }}</td>
+                    @foreach($daysOfWeek as $day)
+                        <td>
+                            @if(isset($timeSlots[$day]))
+                                @foreach($timeSlots[$day] as $timeSlot)
+                                    @if($timeSlot->start_time == sprintf('%02d:00:00', $i))
 
-                                        @php
-                                            $isAvailable = false;
-                                            foreach($professor->disponibilidades as $disponibilidade) {
-                                                if ($disponibilidade->horario_id == $timeSlot->id &&
-                                                    $disponibilidade->disponivel == 1 &&
-                                                    $disponibilidade->ocupado == 0) {
-                                                        $isAvailable = true;
-                                                        break;
+                                        <select name="professor_{{ $day }}_{{ $i }}" id="professor_{{ $day }}_{{ $i }}">
+                                            <option value="">Selecione um Professor</option>
+                                            @forelse($professors as $professor)
+
+                                                @php
+                                                    $isAvailable = false;
+                                                    foreach($professor->disponibilidades as $disponibilidade) {
+                                                        if ($disponibilidade->horario_id == $timeSlot->id &&
+                                                            $disponibilidade->disponivel == 1 &&
+                                                            $disponibilidade->ocupado == 0) {
+                                                                $isAvailable = true;
+                                                                break;
+                                                            }
                                                     }
-                                            }
-                                        @endphp
-                                        @if($isAvailable)
-                                            <option value="{{$professor->id}}">{{$professor->name}}</option>
-                                        @endif
-                                    @empty
-                                        <option value="">Nenhum professor disponível</option>
-                                    @endforelse
-                                </select>
-{{--                                @foreach($schoolClasses as $class)--}}
-{{--                                    @if($class->time_slot_id == $timeSlot->id)--}}
-{{--                                        {{ $class->subject }} ({{ $class->user->name }})--}}
-{{--                                    @endif--}}
-{{--                                @endforeach--}}
+                                                @endphp
+                                                @if($isAvailable)
+                                                    <option value="{{$professor->id}}">{{$professor->name}}</option>
+                                                @endif
+                                            @empty
+                                                <option value="">Nenhum professor disponível</option>
+                                            @endforelse
+                                        </select>
+                                        {{--                                @foreach($schoolClasses as $class)--}}
+                                        {{--                                    @if($class->time_slot_id == $timeSlot->id)--}}
+                                        {{--                                        {{ $class->subject }} ({{ $class->user->name }})--}}
+                                        {{--                                    @endif--}}
+                                        {{--                                @endforeach--}}
+                                    @endif
+                                @endforeach
                             @endif
-                        @endforeach
-                    @endif
-                </td>
-            @endforeach
-        </tr>
-        @endfor
-        </tbody>
-    </table>
+                        </td>
+                    @endforeach
+                </tr>
+                @endfor
+                </tbody>
+            </table>
+            <button>Salvar</button>
+        </div>
+    </div>
+
 </div>
 
 
@@ -117,5 +117,6 @@
     </form>
 
 </div>
-</body>
-</html>
+
+
+@endsection

@@ -17,4 +17,9 @@ class Professor extends Model
     public function disponibilidades(){
         return $this->hasMany(Disponibilidade::class);
     }
+
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class);
+    }
 }
