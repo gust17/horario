@@ -91,3 +91,11 @@ Route::post('gerar_horario',function (\Illuminate\Http\Request $request){
        \App\Models\Disponibilidade::create($grava);
     };
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
