@@ -10,4 +10,10 @@ class Turno extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class);
+    }
 }

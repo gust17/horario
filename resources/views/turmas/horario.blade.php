@@ -1,5 +1,54 @@
 @extends('padrao')
 @section('content')
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastrar Turma</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="{{route('turmas.store')}}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="">Turma</label>
+                            <input class="form-control" type="text" name="name" id="">
+                        </div>
+                        <div class="form-group mt-1">
+                            <label for="">Turno</label>
+                            <select class="form-control" name="turno_id" id="">
+                                <option value=""></option>
+                                @forelse($turnos as $turno)
+                                    <option value="{{$turno->id}}">{{$turno->name}}</option>
+                                @empty
+                                    <option value="">Sem Turnos</option>
+                                @endforelse
+                            </select>
+
+                        </div>
+                        <div class="form-group mt-1">
+                            <label for="">Serie/Ano</label>
+                            <input class="form-control" type="text" name="serie" id="">
+                        </div>
+                        <div class="form-group mt-2">
+                            <button class="btn btn-success">Cadastrar</button>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div class="container mt-5">
         <h1>HORARIO DA TURMA {{$turma->name}} {{$turma->serie}}</h1>
 

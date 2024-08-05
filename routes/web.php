@@ -32,6 +32,8 @@ Route::post('turmas/horario/{turma}',[\App\Http\Controllers\TurmaController::cla
 
 
 Route::resource('turnos',TurnoController::class);
+
+Route::post('turnos/horarios/{turno}',[TurnoController::class, 'horario'])->name('turnos.horario');
 ///Route::resource('turnos');
 
 
